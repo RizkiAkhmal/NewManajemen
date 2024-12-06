@@ -9,14 +9,17 @@ class Menu extends Model
 {
     use HasFactory;
 
+    protected $table = 'menus';
+
     protected $fillable = [
         'name',
         'price',
         'description',
         'foto',
-    ];   
+        'id_category'
+    ];
 
-    // public function category() {
-    //     return $this->belongsTo(category::class, 'id_categories');
-    // }
+    public function category() {
+        return $this->belongsTo(category::class, 'id_category');
+    }
 }

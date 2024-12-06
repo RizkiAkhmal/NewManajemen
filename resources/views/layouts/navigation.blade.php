@@ -7,8 +7,8 @@
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('dashboard') }}">
                         {{-- <x-application-logo class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200" /> --}}
-                        <img src="{{ asset('assets/Toko.jpg') }}" alt="Deskripsi Gambar" style="width:100px">
-
+                        {{-- <img src="{{ asset('assets/Toko.jpg') }}" alt="Deskripsi Gambar" style="width:100px"> --}}
+                        <h1 class="text-white">Good Food</h1>
                     </a>
                 </div>
 
@@ -24,9 +24,9 @@
                         {{ __('Menu') }}
                     </x-nav-link>
 
-                    {{-- <x-nav-link :href="route('category')" :active="request()->routeIs('category')">
+                    <x-nav-link :href="route('category.index')" :active="request()->routeIs('category.index')">
                         {{ __('Category') }}
-                    </x-nav-link> --}}
+                    </x-nav-link>
                 </div>
             </div>
 

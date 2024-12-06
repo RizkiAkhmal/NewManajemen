@@ -3,76 +3,96 @@
 namespace App\Http\Controllers;
 
 use App\Models\Menu;
-use Faker\Guesser\Name;
+use App\Models\Category;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class MenuController extends Controller
 {
-    public function index(){
+    public function index()
+    {
+
         $Menus = Menu::paginate(12);
 
-        return view('menus.index', compact('Menus'));
-       
+        return view('menus.index', compact('Menus')); // Pass the variable 'menus' to the view
+
     }
 
-    public function create(){
-        return view('menus.create');
+    public function create()
+    {
+        $categories = Category::get();
+
+        return view('menus.create', ['categories' => $categories]);
     }
 
-    public function store(Request $request){
+    public function store(Request $request)
+    {
         $this->validate($request, [
             'name' => 'required',
             'price' => 'required|numeric',
-            'foto' => 'required|image|mimes:jpeg,png,jpg'
+            'foto' => 'required|image|mimes:jpeg,png,jpg',
+            'id_category' => 'required|exists:category,id', // Ensure category exists
         ]);
 
         $foto = $request->file('foto');
-        $foto->storeAs('public', $foto->hashName());
+        $foto->storeAs('public', $foto->hashName()); // Store foto in public storage
 
         Menu::create([
             'name' => $request->name,
-            'price' => str_replace(".", "", $request->price),
-            'description'=>$request->description,
-            'foto' => $foto->hashName(),
+            'price' => $request->price,
+            'description' => $request->description,
+            'id_category' => $request->id_category,
+            'foto' => $foto->hashName(), // Store the hashed filename
         ]);
 
-        return redirect()->Route('menus.index')->with('Success', 'Add Menu Success');
+        return redirect()->route('menus.index')->with('success', 'Menu created successfully!');
     }
 
-    public function edit(Menu $menu){
-        return view('menus.edit', compact('menu'));
+    public function edit($id) {
+        $menus =  Menu::findOrFail($id)->first();
+        $categories = Category::get();
+
+        return redirect()->route('menus.edit', compact('Menus', 'categories'));
     }
 
-    public function update(Request $request, Menu $menu){
-        $this->validate($request, [
-            'name' => 'required',
-            'price' => 'required|numeric',
-        ]);
+    public function update($id, Request $request)
+{
+    // Validate the incoming request data
+    $this->validate($request, [
+        'name' => 'required',
+        'price' => 'required|numeric',
+        'foto' => 'nullable|image|mimes:jpeg,png,jpg', // Image is optional for updates
+        'id_category' => 'required|exists:category,id', // Ensure the category exists
+    ]);
 
-        $menu->name = $request->name;
-        $menu->price = str_replace(".", "", $request->price);
-        $menu->description = $request->description;
+    // Fetch the menu item
+    $menu = Menu::findOrFail($id);
 
-        if($request->file('foto')){
-             
-            Storage::disk('local')->delete('public/', $menu->foto);
-            $foto = $request->file('foto');
-            $foto->storeAs('public', $foto->hashName());
-            $menu->foto = $foto->hashName();
-        }
-
-        $menu->update();
-        return redirect()->Route('menus.index')->with('Success', 'Update Menu Success');
+    // Handle image upload if a new image is provided
+    if ($request->hasFile('foto')) {
+        $foto = $request->file('foto');
+        $foto->storeAs('public', $foto->hashName());
+        $menu->foto = $foto->hashName(); // Update the image path in the database
     }
 
-    public function destroy(Menu $menu){
-        if($menu->foto == "noimage.png"){
-            Storage::disk('local')->delete('public/', $menu->foto);
-        }
+    // Update other fields
+    $menu->update([
+        'name' => $request->name,
+        'price' => $request->price,
+        'description' => $request->description,
+        'id_category' => $request->id_category,
+    ]);
 
-        $menu->delete();
+    return redirect()->route('menus.index')->with('success', 'Menu updated successfully!');
+}
 
-        return redirect()->Route('menus.index')->with('Success', 'Delete Menu Success');
-    }
+    public function delete($id) {
+        Menu::findOrFail($id)->delete();
+
+        return redirect()->route('menus.index');
+
+}
+
+
+
+
 }

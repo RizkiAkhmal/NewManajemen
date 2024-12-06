@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->integer('price');
-            // $table->string('category_menu');
+            $table->string('category_menu');
             $table->string('description');
             $table->string('foto')->default('noimage.png');
             $table->timestamps();

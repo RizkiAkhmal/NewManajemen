@@ -22,12 +22,12 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
+Route::get('dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
-    
+
     Route::get('menus', [MenuController::class, 'index'])->name('menus.index');
     Route::get('menus/create', [MenuController::class, 'create'])->name('menus.create');
     Route::post('menus', [MenuController::class, 'store'])->name('menus.store');
@@ -40,8 +40,13 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-// Route::controller(categoryController::class)->prefix('category')->group(function(){
-//     Route::get('', 'index')->name('category');
-// });
+Route::controller(CategoryController::class)->prefix('category')->group(function() {
+    Route::get('', 'index')->name('category.index');
+    Route::get('create', 'create')->name('category.create');
+    Route::post('store', 'store')->name('category.store');
+    Route::get('edit/{id}', 'edit')->name('category.edit');
+    Route::get('delete/{id}', 'delete')->name('category.delete');
+    Route::post('update', 'update')->name('category.update');
+});
 
 require __DIR__.'/auth.php';
