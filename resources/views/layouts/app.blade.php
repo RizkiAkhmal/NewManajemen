@@ -19,8 +19,7 @@
             @include('layouts.navigation')
 
             <div class="flex justify-center mt-10">
-                {{-- <img src="{{ asset('assets/Toko.jpg') }}" alt="Deskripsi Gambar" class="h-20"> --}}
-                <h1 class="text-white font-extrabold fs-1">Good Food</h1>
+                <img src="{{ asset('assets/Toko.jpg') }}" alt="Deskripsi Gambar" class="h-20">
             </div>
 
             <!-- Page Content -->

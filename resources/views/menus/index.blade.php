@@ -40,9 +40,21 @@
                                 <p class="font-semibold text-white">Rp. {{number_format($menu->price)}}</p>
                                 <p class="text-white">{{$menu->description}}</p>
                             </div>
-                            <a href="{{ route('menus.edit', $menu) }}">
+                            <a href="{{ route('menus.edit', ['menu' => $menu->id]) }}">
                                 <button class="bg-gray-500 px-10 py-2 w-full rounded-md font-semibold">Edit</button>
                             </a>
+                            
+                            <form action="{{ route('menus.delete', $menu->id) }}" method="GET">
+                                @csrf
+                                @method('DELETE')
+                                <button class="bg-gray-500 px-10 py-2 w-full rounded-md font-semibold mt-2">
+                                    Delete
+                                </button>
+                            </form>
+
+                            
+
+                            
                         </div>
                     @endforeach
                 </div>

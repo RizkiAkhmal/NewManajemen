@@ -47,12 +47,15 @@ class MenuController extends Controller
         return redirect()->route('menus.index')->with('success', 'Menu created successfully!');
     }
 
-    public function edit($id) {
-        $menus =  Menu::findOrFail($id)->first();
-        $categories = Category::get();
+    public function edit($id)
+    {
+    $menu = Menu::findOrFail($id); // Find the menu by ID
+    $categories = Category::all(); // Fetch all categories
 
-        return redirect()->route('menus.edit', compact('Menus', 'categories'));
+    // Return the edit view with menu and categories data
+    return view('menus.edit', compact('menu', 'categories'));
     }
+
 
     public function update($id, Request $request)
 {
@@ -80,7 +83,10 @@ class MenuController extends Controller
         'price' => $request->price,
         'description' => $request->description,
         'id_category' => $request->id_category,
+
+        
     ]);
+    
 
     return redirect()->route('menus.index')->with('success', 'Menu updated successfully!');
 }

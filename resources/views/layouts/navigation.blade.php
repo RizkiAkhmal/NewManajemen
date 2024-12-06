@@ -7,8 +7,7 @@
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('dashboard') }}">
                         {{-- <x-application-logo class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200" /> --}}
-                        {{-- <img src="{{ asset('assets/Toko.jpg') }}" alt="Deskripsi Gambar" style="width:100px"> --}}
-                        <h1 class="text-white">Good Food</h1>
+                        <img src="{{ asset('assets/Toko.jpg') }}" alt="Deskripsi Gambar" style="width:100px">
                     </a>
                 </div>
 

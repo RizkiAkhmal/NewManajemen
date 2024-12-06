@@ -33,12 +33,14 @@ Route::middleware('auth')->group(function () {
     Route::post('menus', [MenuController::class, 'store'])->name('menus.store');
     Route::get('menus/{menu}/edit', [MenuController::class, 'edit'])->name('menus.edit');
     Route::put('menus/{menu}', [MenuController::class, 'update'])->name('menus.update');
-    Route::delete('menu/{menu}', [MenuController::class, 'destroy'])->name('menus.destroy');
+    Route::get('delete/{id}', [MenuController::class, 'delete'])->name('menus.delete');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
 });
+
 
 Route::controller(CategoryController::class)->prefix('category')->group(function() {
     Route::get('', 'index')->name('category.index');

@@ -3,7 +3,7 @@
 
         <div class="flex mt-6 justify-between items-center">
             <h2 class="font-semibold text-xl text-blue-600">Edit Menu</h2>
-            @include('menus.delete')
+            {{-- @include('menus.delete') --}}
         </div>
 
         <div class="mt-4" x-data="{ imageUrl: '/storage/{{$menu->foto}}' }">
@@ -39,6 +39,17 @@
                         <x-input-label for="description" :value="__('description')" />
                         <x-text-area id="description" class="block mt-1 w-full" type="text" name="description"> {{ $menu->description }}</x-text-area>
                         <x-input-error :messages="$errors->get('description')" class="mt-2" />
+                    </div>
+
+                    <div class="mt-4">
+                        <label for="id_category" class="block text-sm font-medium text-white">Category</label>
+                        <select name="id_category" id="id_category" required
+                                class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
+                            <option value=""> Select Category </option>
+                            @foreach($categories as $category)
+                                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                            @endforeach
+                        </select>
                     </div>
 
                     <x-primary-button class="justify-center w-full mt-5">

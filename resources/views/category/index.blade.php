@@ -13,7 +13,7 @@
             </a>
         </div>
 
-        <table class="w-full border-collapse border bg-white">
+        <table class="w-full border-collapse border  text-white">
             <thead>
                 <tr>
                     <th class="border px-4 py-2">ID</th>
@@ -24,7 +24,7 @@
             <tbody>
                 @foreach($categories as $category)
                 <tr>
-                    <td class="border px-4 py-2     ">{{ $category->id }}</td>
+                    <td class="border px-4 py-2">{{ $category->id }}</td>
                     <td class="border px-4 py-2">{{ $category->name }}</td>
                     <td class="border px-4 py-2 flex space-x-4">
                         <a href="{{ route('category.edit', $category->id) }}" class="text-sky-600">Edit</a>
@@ -33,6 +33,8 @@
                             @method('DELETE')
                             <button type="submit" class="text-red-600">Delete</button>
                         </form>
+
+                        
                     </td>
                 </tr>
                 @endforeach
