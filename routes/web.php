@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\categoryController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\ProfileController;
 use App\Models\category;
@@ -22,12 +23,17 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::controller(DashboardController::class)->prefix('dashboard')->group(function() {
+    Route::get('', 'index')->name('dashboard');
+});
 
 Route::middleware('auth')->group(function () {
+    // Profile
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
+    //Menus
     Route::get('menus', [MenuController::class, 'index'])->name('menus.index');
     Route::get('menus/create', [MenuController::class, 'create'])->name('menus.create');
     Route::post('menus', [MenuController::class, 'store'])->name('menus.store');
@@ -35,20 +41,16 @@ Route::middleware('auth')->group(function () {
     Route::put('menus/{menu}', [MenuController::class, 'update'])->name('menus.update');
     Route::get('delete/{id}', [MenuController::class, 'delete'])->name('menus.delete');
 
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+     //Categories
+     Route::get('category', [categoryController::class, 'index'])->name('category.index');
+     Route::get('category/create', [categoryController::class, 'create'])->name('category.create');
+     Route::post('category/store', [categoryController::class, 'store'])->name('category.store');
+     Route::get('category/edit/{id}', [categoryController::class, 'edit'])->name('category.edit');
+     Route::get('category/delete/{id}', [categoryController::class, 'delete'])->name('category.delete');
+     Route::post('category/update/{id}', [categoryController::class, 'update'])->name('category.update');
 
-});
+ });
+ 
 
-
-Route::controller(CategoryController::class)->prefix('category')->group(function() {
-    Route::get('', 'index')->name('category.index');
-    Route::get('create', 'create')->name('category.create');
-    Route::post('store', 'store')->name('category.store');
-    Route::get('edit/{id}', 'edit')->name('category.edit');
-    Route::get('delete/{id}', 'delete')->name('category.delete');
-    Route::post('update', 'update')->name('category.update');
-});
 
 require __DIR__.'/auth.php';

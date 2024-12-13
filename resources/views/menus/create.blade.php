@@ -9,11 +9,11 @@
         <div class="mt-4" x-data="{ imageUrl: '{{ asset('storage/') }}' }">
             <form enctype="multipart/form-data" method="POST" action="{{ route('menus.store') }}" class="flex gap-8">
                 @csrf
-
+{{-- 
                 <div class="w-1/2">
                     <img :src="imageUrl" class="rounded-md">
-                </div>
-                <div class="w-1/2">
+                </div> --}}
+                <div class="w-full">
                     <div>
                         <x-input-label for="foto" :value="__('foto')" />
                         <x-text-input accept="/storage" id="foto" class="block mt-1 w-full border" type="file" name="foto" :value="old('foto')" required
@@ -33,11 +33,11 @@
                         <x-text-input id="price" class="block mt-1 w-full" type="text" name="price" :value="old('price')" required />
                         <x-input-error :messages="$errors->get('price')" class="mt-2" />
                     </div>
-
+                    
                     <div class="mt-4">
                         <label for="id_category" class="block text-sm font-medium text-white">Category</label>
                         <select name="id_category" id="id_category" required
-                                class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
+                                class="mt-1 block w-full border-white-300 rounded-md shadow-sm">
                             <option value=""> Select Category </option>
                             @foreach($categories as $category)
                                 <option value="{{ $category->id }}">{{ $category->name }}</option>
