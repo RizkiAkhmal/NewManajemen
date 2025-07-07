@@ -20,6 +20,6 @@ class Menu extends Model
     ];
 
     public function category() {
-        return $this->belongsTo(category::class, 'id_category');
+        return $this->belongsTo(Category::class, 'id_category');
     }
 }

@@ -33,11 +33,11 @@ class CategoryController extends Controller
             'name' => 'required|string|max:255',
         ]);
 
-        Category::create([
-            'name' => $request->name,
-        ]);
+        $category = new Category();
+        $category->name = $request->name;
+        $category->save();
 
-        return redirect()->route('category.index')->with('success', 'Category created successfully!');
+        return redirect()->route('category.index')->with('Success', 'Kategori berhasil ditambahkan!');
     }
 
     /**
@@ -59,11 +59,10 @@ class CategoryController extends Controller
         ]);
 
         $category = Category::findOrFail($id);
-        $category->update([
-            'name' => $request->name,
-        ]);
+        $category->name = $request->name;
+        $category->save();
 
-        return redirect()->route('category.index')->with('success', 'Category updated successfully!');
+        return redirect()->route('category.index')->with('Success', 'Kategori berhasil diperbarui!');
     }
 
     /**
@@ -71,9 +70,9 @@ class CategoryController extends Controller
      */
     public function delete($id)
     {
-        $category = Category::findOrFail($id)->delete();
-        
+        $category = Category::findOrFail($id);
+        $category->delete();
 
-        return redirect()->route('category.index')->with('success', 'Category deleted successfully!');
+        return redirect()->route('category.index')->with('Success', 'Kategori berhasil dihapus!');
     }
 }

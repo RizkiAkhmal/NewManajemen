@@ -24,6 +24,13 @@ class MenuController extends Controller
         return view('menus.create', ['categories' => $categories]);
     }
 
+    public function testCreate()
+    {
+        $categories = Category::get();
+
+        return view('menus.test-create', ['categories' => $categories]);
+    }
+
     public function store(Request $request)
     {
         $this->validate($request, [
@@ -44,7 +51,7 @@ class MenuController extends Controller
             'foto' => $foto->hashName(), // Store the hashed filename
         ]);
 
-        return redirect()->route('menus.index')->with('success', 'Menu created successfully!');
+        return redirect()->route('menus.index')->with('Success', 'Menu berhasil ditambahkan!');
     }
 
     public function edit($id)
@@ -88,15 +95,15 @@ class MenuController extends Controller
     ]);
     
 
-    return redirect()->route('menus.index')->with('success', 'Menu updated successfully!');
+    return redirect()->route('menus.index')->with('Success', 'Menu berhasil diperbarui!');
 }
 
     public function delete($id) {
-        Menu::findOrFail($id)->delete();
+        $menu = Menu::findOrFail($id);
+        $menu->delete();
 
-        return redirect()->route('menus.index');
-
-}
+        return redirect()->route('menus.index')->with('Success', 'Menu berhasil dihapus!');
+    }
 
 
 
